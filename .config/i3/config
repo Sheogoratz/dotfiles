@@ -39,7 +39,7 @@ smart_borders on
 
 # common apps keybinds
 bindsym Print exec gnome-screenshot
-bindsym $super+l exec i3lock -i ~/.sheogoratz/darkest.png
+bindsym $super+l exec i3lock -u -i ~/.sheogoratz/lockscreen.png
 bindsym $super+Shift+w exec firefox
 bindsym $super+Shift+f exec /usr/bin/nautilus
 bindsym $super+Shift+g exec geany
@@ -136,3 +136,14 @@ client.unfocused		#2f343f #2f343f #d8dee8 #2f343f #2f343f
 client.urgent			#2f343f #2f343f #d8dee8 #2f343f #2f343f
 client.placeholder		#2f343f #2f343f #d8dee8 #2f343f #2f343f
 client.background		#2f343f
+
+#Windows Rules
+assign [class=Firefox] 2
+assign [class=Thunderbird] 3
+assign [class=libreoffice*] 4
+assign [class=Geany|code-oss] 5
+assign [class=Audacity|Vlc|mpv|Ghb|Xfburn|Gimp*|Inkscape] 6
+assign [class=Steam] 9
+assign [class=discord] 10
+for_window [class="Spotify"] move --no-auto-back-and-forth to workspace 9
+
