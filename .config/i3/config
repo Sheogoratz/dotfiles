@@ -9,20 +9,23 @@ font pango: Noto Sans 8
 floating_modifier $super
 
 #autostart
-exec --no-startup-id hsetroot -cover .sheogoratz/bioshock.jpg
 exec --no-startup-id xsettingsd &
 exec --no-startup-id compton -b
-#exec --no-startup-id python ~/.sheogoratz/Cheese/screen.py
-exec --no-startup-id ~/.sheogoratz/launch_polybar.sh
+#exec --no-startup-id python ~/.scripts/Cheese/screen.py
+exec --no-startup-id ~/.scripts/launch_polybar.sh
+exec --no-startup-id wal -R
 exec --no-startup-id dunst
 # start a terminal
 bindsym $super+Return exec gnome-terminal
 
 # start dmenu (a program launcher)
-bindsym $super+d exec i3-dmenu-desktop --dmenu="dmenu -b -fn 'Noto Sans:size=8'"
-bindsym $super+Shift+d exec rofi -lines 12 -padding 18 -width 60 -location 0 -show drun -sidebar-mode -columns 3 -font 'Noto Sans 8'
-
+#bindsym $super+Shift+d exec i3-dmenu-desktop --dmenu="dmenu -b -fn 'Noto Sans:size=8'"
+bindsym $super+d exec rofi -lines 12 -padding 18 -width 60 -location 0 -show-icons -show drun -sidebar-mode -columns 3 -font 'Noto Sans 8'
+bindsym $super+w exec xdotool mousemove 683 384 
 bindsym $super+m move workspace to output right
+bindsym $super+Shift+m exec ~/.scripts/Monitors.sh
+bindsym $super+b exec ranger
+bindsym $super+Shift+x exec wal -R
 
 #Needed for i3-gaps
 hide_edge_borders both
@@ -39,16 +42,17 @@ smart_borders on
 
 # common apps keybinds
 bindsym Print exec gnome-screenshot
-bindsym $super+l exec i3lock -u -i ~/.sheogoratz/lockscreen.png
+bindsym $super+l exec ~/.scripts/lockscreen.sh
 bindsym $super+Shift+w exec firefox
 bindsym $super+Shift+f exec /usr/bin/nautilus
 bindsym $super+Shift+g exec geany
-bindsym $super+Shift+p exec keepass
+bindsym $super+Shift+p exec ~/.scripts/screenshot.sh
 #change volume
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +1% #increase sound volume
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -1% #decrease sound volume
 bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle # mute sound
-
+bindsym XF86MonBrightnessDown exec xbacklight -dec 1
+bindsym XF86MonBrightnessUp exec xbacklight -inc 1
 
 # kill focused window
 bindsym $super+c kill
@@ -97,6 +101,8 @@ bindsym $super+7 workspace 7
 bindsym $super+8 workspace 8
 bindsym $super+9 workspace 9
 bindsym $super+0 workspace 10
+bindsym $super+degree workspace 11
+bindsym $super+plus workspace 12
 
 # move focused container to workspace	
 bindsym $super+Shift+1 move container to workspace 1
@@ -109,13 +115,14 @@ bindsym $super+Shift+7 move container to workspace 7
 bindsym $super+Shift+8 move container to workspace 8
 bindsym $super+Shift+9 move container to workspace 9
 bindsym $super+Shift+0 move container to workspace 10
-
+bindsym $super+Shift+degree move container to workspace 11
+bindsym $super+Shift+plus move container to workspace 12
 
 #restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $super+Shift+r restart
 
 # exit i3
-bindsym $super+q exec "i3-nagbar -t warning -m 'Really, exit?' -b 'Yes' 'i3-msg exit'"
+#bindsym $super+q exec "i3-nagbar -t warning -m 'Really, exit?' -b 'Yes' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -138,7 +145,7 @@ client.placeholder		#2f343f #2f343f #d8dee8 #2f343f #2f343f
 client.background		#2f343f
 
 #Windows Rules
-assign [class=Firefox] 2
+assign [class=Navigator|firefox] 2
 assign [class=Thunderbird] 3
 assign [class=libreoffice*] 4
 assign [class=Geany|code-oss] 5

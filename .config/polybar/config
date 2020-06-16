@@ -1,11 +1,23 @@
-[bar/white]
 
-;------------;
-; DIMENSIONS ;
-;------------;
+
+[colors]
+transparent = 0
+background = ${xrdb:color0:#000000}
+primary = ${xrdb:color7:#d4d0d0}
+secondary = ${xrdb:color2:df1111}
+transparency = #80000000
+
+[vars]
+padding-inner = 2.5
+padding-outer = 2.5
+
+[bar/topbar]
+override-redirect = false
+wm-restack=i3
+monitor = ${env:MONITOR:}
 
 width = 100%
-height = 20
+height = 25
 offset-y = 0
 offset-x = 0
 
@@ -13,153 +25,329 @@ border-top-size = 5
 border-bottom-size = 0
 border-right-size = 0
 border-left-size = 0
-
-;----------;
-; LOCATION ;
-;----------;
-
-bottom = false
-monitor = ${env:MONITOR:}
-wm-restack = i3
-
-;-------;
-; FONTS ;
-;-------;
-
-font-0 = Hack:size=10;3
-font-1 = "Font Awesome 5 Free:style=Solid:pixelsize=12;3"
-font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=12;3"
-font-3 = "Font Awesome 5 Brands:pixelsize=12;3"
-
-;--------;
-; COLORS ;
-;--------;
-
-background = #9cbbd9
-foreground = #3c444f
-border-color = 0
-
-;---------------;
-; MISCELLANEOUS ;
-;---------------;
-
 fixed-center = true
-padding-left = 2 
-padding-right = 2
-module-margin = 1.5
 
-modules-left = alsa backlight battery cpu memory
-modules-center = i3
-modules-right = wlan network date time
+
+background = ${colors.transparency}
+foreground = ${colors.primary}
+
+font-0 = Roboto:style=Regular:size=10;3
+font-1 = Font Awesome 5 Free:style=Solid:size=11;3
+font-2 = Font Awesome 5 Free:style=Regular:size=11;3
+font-3 = fixed:size=10;3
+font-4 = icomoon\-feather:style=Medium:size=10;3
+
+line-size = 2
+line-color = ${colors.secondary}
+
+
+border-color = ${colors.transparent}
+
+modules-margin = 1.5
 
 tray-position = right
-tray-padding = 2
-true tray-background = #0e0c0d
-;---------;
-; MODULES ;
-;---------;
+tray-padding=2
+tray-background = ${colors.background}
+
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
+
+cursor-click = pointer
+cursor-scroll = default
+
+locale = en_US.UTF-8
+
+modules-left = spacer i3 spacer spacer menu spacer spacer spacer spotifystatus
+modules-center = date
+modules-right = temperature cpu memory light audio network-wifi battery 
+
+[module/spacer]
+type = custom/text
+content =" "
+
+[module/power]
+type = custom/text
+content = 
+content-background = ${colors.background}
+content-padding = 3
+click-left = ~/.config/polybar/scripts/powermenu
+
+
+[module/spotifystatus]
+type = custom/script
+interval = 1
+format-prefix = " "
+format = <label> 
+exec = python ~/.config/polybar/scripts/spotify.py -f '{artist}: {song}'
+format-underline = ${colors.secondary}
+
+[module/menu]
+type = custom/menu
+
+; If true, <label-toggle> will be to the left of the menu items (default).
+; If false, it will be on the right of all the items.
+expand-right = true
+
+; "menu-LEVEL-N" has the same properties as "label-NAME" with
+; the additional "exec" property
+;
+; Available exec commands:
+;   menu-open-LEVEL
+;   menu-close
+; Other commands will be executed using "/usr/bin/env sh -c $COMMAND"
+menu-0-0 =
+menu-0-0-exec = ~/.config/polybar/scripts/launcher &
+menu-0-1 =
+menu-0-1-exec = ~/.config/polybar/scripts/powermenu
+menu-0-2 =  
+menu-0-2-exec = ~/.scripts/Networking.sh
+menu-0-3 = 
+menu-0-3-exec = cd ~/.scripts/Wallpapers ; wal -i $(ls | shuf -n1) ; ~/.scripts/dunstwal.sh &
+format-spacing = 1 
+
+label-open =
+label-close =
+
+
+; Optional item separator
+; Default: none
+label-separator = |
+
 
 [module/i3]
 type = internal/i3
-
+format = <label-state> <label-mode>
+index-sorting = false
+wrapping-scroll = false
 pin-workspaces = true
 strip-wsnumbers = true
-enable-scroll = false
 
-label-unfocused-foreground = #808080
-label-focused-foreground = #3c444f
-label-urgent-foreground = #8f1e22
+format-padding = ${vars.padding-outer}
+format-background = ${colors.transparent}
 
-[module/time]
-type = internal/date
+label-mode-padding-left=0
+label-mode-foreground = ${colors.primary}
 
-interval = 1.0
+; focused = Active workspace on focused monitor
+label-focused = %icon%
+label-focused-foreground = ${colors.primary}
+label-focused-background = ${colors.secondary}
+label-focused-underline = ${colors.primary}
+label-focused-padding = 2
 
-date =  %H:%M
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %icon%
+label-unfocused-font = 3
+label-unfocused-foreground = ${colors.primary}
+label-unfocused-background = ${colors.background}
+label-unfocused-padding = 2
+
+; visible, active workspace on unfocused monitor
+label-visible = %icon%
+label-visible-font = 3
+label-visible-foreground = ${colors.primary}
+label-visible-background = ${colors.background}
+label-visible-underline = ${colors.primary}
+label-visible-padding = 2
+
+; urgent = Workspace with urgency hint set
+label-urgent = %icon%
+label-urgent-foreground = ${colors.secondary}
+label-urgent-background = ${colors.background}
+label-urgent-underline = ${colors.secondary}
+label-urgent-padding = 2
+
+background = ${colors.background}
+
+ws-icon-0 = 1;1
+ws-icon-1 = 2;2
+ws-icon-2 = 3;3
+ws-icon-3 = 4;4
+ws-icon-4 = 5;5
+ws-icon-5 = 6;6
+ws-icon-6 = 7;7
+ws-icon-7 = 8;8
+ws-icon-8 = 9;9
+ws-icon-9 = 10;10
+ws-icon-10 = 11;11
+ws-icon-11 =12;12
 
 [module/date]
 type = internal/date
-date =%e %B
-label = %date%
+interval = 1
+
+date = 
+time = %H:%M
+
+date-alt = %e %B %Y
+time-alt = 
+
+label = %date%%time%
+label-padding-left = ${vars.padding-inner}
+label-padding-right = ${vars.padding-outer}
+
+format-background = ${colors.background}
+format-forground = ${colors.primary}
+
 
 
 [module/battery]
-type = internal/battery
+type=internal/battery
+
+full-at = 98
 
 battery = BAT1
+adapter = ADP1
 
-poll-interval = 1
+poll-interval = 5
 
-full-at = 95
+format-charging-background = ${colors.background}
+format-charging-padding = ${vars.padding-inner}
+format-charging =   <label-charging>
+label-charging = %percentage%%
 
-label-discharging = %percentage%% %time%
-label-charging = %percentage%% %time%
-label-full = %percentage%%
-time-format = %H:%M
+format-discharging-background = ${colors.background}
+format-discharging-padding = ${vars.padding-inner}
+format-discharging = <ramp-capacity>  <label-discharging>
+label-discharging = %percentage%%
 
-format-discharging = <ramp-capacity> <label-discharging>
-format-full = <ramp-capacity> <label-full>
-format-charging =  <label-charging>
+format-full-background = ${colors.background}
+format-full-padding = ${vars.padding-inner}
+format-full = 
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-3 = 
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
 ramp-capacity-4 = 
 
-[module/alsa]
-type = internal/volume
 
-format-volume = <ramp-volume> <label-volume>
-format-muted =  
+[module/checknetwork]
+type = custom/text
+content =   
+click-left = networkmanager_dmenu &
+content-background = ${colors.background}
 
-ramp-volume-0 = 
-ramp-volume-1 = 
-ramp-volume-2 = 
-
-[module/backlight]
-type = internal/backlight
-
-; Use the following command to list available cards:
-; $ ls -1 /sys/class/backlight/
-card =intel_backlight
-
-format = <ramp> <label>
-
-label = %percentage%%
-
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-
-[module/wlan]
+[module/network-wifi]
 type = internal/network
 
 interface = wlp3s0
 
 interval = 3
 
-label-connected =  %essid%
+format-connected = <label-connected>
+format-connected-background = ${colors.background}
+format-connected-padding = ${vars.padding-inner}
+label-connected = %downspeed:9%
 label-disconnected = 
 
-[module/cpu]
-type = internal/cpu
-label =  %percentage%%
+
+[module/audio]
+type = internal/pulseaudio
+
+sink = 
+
+use-ui-max = false
+
+interval = 5
+
+format-volume = <ramp-volume>  <label-volume>
+format-volume-background = ${colors.background}
+format-volume-padding = ${vars.padding-inner}
+
+format-muted = <label-muted>
+format-muted-background = ${colors.background}
+format-muted-padding = ${vars.padding-inner}
+format-muted-underline = ${colors.secondary}
+label-muted = 
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+
+click-right = ncpamixer &
+
+
+
+[module/light]
+type = internal/backlight
+card = intel_backlight
+format = <ramp> <label>
+format-background = ${colors.background}
+format-padding = ${vars.padding-inner}
+label = %percentage%%
+
+ramp-0 = 🌕
+ramp-1 = 🌔
+ramp-2 = 🌓
+ramp-3 = 🌒
+ramp-4 = 🌑
+
+
+[module/drives]
+type = internal/fs
+
+mount-0 = /
+
+interval = 60
+fixed-values = true
+spacing = 0
+
+format-mounted =   <label-mounted>
+format-mounted-background = ${colors.background}
+format-mounted-padding = ${vars.padding-inner}
+label-mounted = %percentage_used%%
+
+format-unmounted = 
+
 
 
 [module/memory]
 type = internal/memory
-label =  %gb_used%
 
-[module/network]
-type = internal/network
-interface = wlp3s0
-label-connected =  %downspeed%
+interval = 6
 
-[bar/float]
+format =   <label>
+format-background = ${colors.background}
+format-padding = ${vars.padding-inner}
+label = %percentage_used%%
 
-inherit = bar/white
 
-background = #ffffff
 
-tray-position = center
+[module/cpu]
+type = internal/cpu
+
+interval = 3
+
+format =   <label>
+format-background = ${colors.background}
+format-padding = ${vars.padding-inner}
+label = %percentage%%
+
+[module/temperature]
+type = internal/temperature
+
+interval = 2
+
+thermal-zone = 0
+units = true
+format =  <label>
+label = %temperature-c%
+format-background = ${colors.background}
+format-padding = ${vars.padding-inner}
+
+[module/temp]
+type = custom/script
+
+exec = ~/.config/polybar/scripts/polytemp.sh
+interval = 10
+
+format = <label>
+format-background = ${colors.background}
+format-padding = ${vars.padding-inner}
+label = %output%
+
+
+#########
+#  END  # 
+#########
